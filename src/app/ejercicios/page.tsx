@@ -1,9 +1,31 @@
 'use client';
 
-import { DocumentArrowDownIcon, FolderIcon } from '@heroicons/react/24/outline';
+import { DocumentArrowDownIcon, FolderIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import { useStudentProgress, useExerciseProgress } from '@/hooks/useProgress';
 
 export default function Ejercicios() {
+  const { progress, loading } = useStudentProgress();
+  const { markExerciseDownloaded, markExerciseCompleted } = useExerciseProgress();
+  
+  const handleDownload = async (ejercicio: any) => {
+    await markExerciseDownloaded(ejercicio.id.toString(), ejercicio.nombre, ejercicio.nivel);
+    // Abrir el archivo en una nueva pestaña
+    window.open(`https://drive.google.com/file/d/${ejercicio.driveId}/view?usp=sharing`, '_blank');
+  };
+
+  const handleMarkCompleted = async (ejercicio: any) => {
+    await markExerciseCompleted(ejercicio.id.toString(), ejercicio.nombre, ejercicio.nivel, 30); // 30 min estimado
+  };
+
+  const isExerciseCompleted = (ejercicioId: string) => {
+    return progress?.exercises[ejercicioId]?.completed || false;
+  };
+
+  const isExerciseDownloaded = (ejercicioId: string) => {
+    return progress?.exercises[ejercicioId]?.downloadedAt || false;
+  };
+  
   const ejercicios = [
     {
       id: 1,
@@ -128,10 +150,20 @@ export default function Ejercicios() {
                       <div className="flex items-center">
                         <DocumentArrowDownIcon className="h-6 w-6 text-gray-600 mr-3" />
                         <h3 className="text-xl font-bold text-gray-900">{ejercicio.nombre}</h3>
+                        {isExerciseCompleted(ejercicio.id.toString()) && (
+                          <CheckCircleIcon className="h-6 w-6 text-green-600 ml-2" />
+                        )}
                       </div>
-                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${colorClasses.bg} ${colorClasses.text}`}>
-                        {ejercicio.nivel}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className={`px-3 py-1 rounded-full text-sm font-medium ${colorClasses.bg} ${colorClasses.text}`}>
+                          {ejercicio.nivel}
+                        </span>
+                        {isExerciseCompleted(ejercicio.id.toString()) && (
+                          <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
+                            Completado
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
 
@@ -161,15 +193,30 @@ export default function Ejercicios() {
                     {/* Acciones */}
                     <div className="flex flex-col sm:flex-row gap-3">
                       {ejercicio.driveId ? (
-                        <a 
-                          href={`https://drive.google.com/file/d/${ejercicio.driveId}/view?usp=sharing`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={`flex-1 ${colorClasses.button} text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center justify-center text-center`}
-                        >
-                          <DocumentArrowDownIcon className="h-5 w-5 mr-2" />
-                          Descargar Ejercicio
-                        </a>
+                        <>
+                          <button 
+                            onClick={() => handleDownload(ejercicio)}
+                            className={`flex-1 ${colorClasses.button} text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center justify-center text-center hover:opacity-90`}
+                            disabled={loading}
+                          >
+                            <DocumentArrowDownIcon className="h-5 w-5 mr-2" />
+                            {isExerciseDownloaded(ejercicio.id.toString()) ? 'Descargar Nuevamente' : 'Descargar Ejercicio'}
+                          </button>
+                          
+                          {isExerciseDownloaded(ejercicio.id.toString()) && (
+                            <button 
+                              onClick={() => handleMarkCompleted(ejercicio)}
+                              className={`flex-1 ${isExerciseCompleted(ejercicio.id.toString()) 
+                                ? 'bg-green-600 hover:bg-green-700' 
+                                : 'bg-gray-600 hover:bg-gray-700'
+                              } text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center justify-center text-center`}
+                              disabled={loading}
+                            >
+                              <CheckCircleIcon className="h-5 w-5 mr-2" />
+                              {isExerciseCompleted(ejercicio.id.toString()) ? 'Completado ✓' : 'Marcar Completado'}
+                            </button>
+                          )}
+                        </>
                       ) : (
                         <button 
                           disabled
