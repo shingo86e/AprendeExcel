@@ -194,10 +194,16 @@ export default function Formulas() {
           <h2 className="text-4xl font-bold text-gray-900 mb-6">
             Biblioteca de Fórmulas y Funciones
           </h2>
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 mb-6 max-w-3xl mx-auto">
             Explora nuestra colección completa de fórmulas de Excel con ejemplos prácticos, 
             sintaxis detallada y archivos de ejercicios para descargar.
           </p>
+          <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 max-w-2xl mx-auto mb-8">
+            <p className="text-sm text-orange-800 text-center">
+              <strong>📊 Fórmulas y funciones desarrolladas por TECLAB</strong><br/>
+              Material didáctico y ejemplos educativos protegidos por derechos de autor.
+            </p>
+          </div>
         </div>
       </section>
 

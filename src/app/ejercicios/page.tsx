@@ -101,10 +101,16 @@ export default function Ejercicios() {
           <h2 className="text-4xl font-bold text-gray-900 mb-6">
             Ejercicios Prácticos de Excel
           </h2>
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 mb-6 max-w-3xl mx-auto">
             Descarga y practica con nuestros ejercicios diseñados paso a paso. 
             Cada archivo incluye instrucciones detalladas y soluciones.
           </p>
+          <div className="bg-green-50 border border-green-200 rounded-lg p-4 max-w-2xl mx-auto mb-8">
+            <p className="text-sm text-green-800 text-center">
+              <strong>📝 Ejercicios desarrollados por TECLAB</strong><br/>
+              Material de práctica y planillas educativas protegidas por derechos de autor.
+            </p>
+          </div>
         </div>
       </section>
 

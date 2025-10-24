@@ -128,10 +128,16 @@ export default function Videos() {
           <h2 className="text-4xl font-bold text-gray-900 mb-6">
             Videos de Clase Completos
           </h2>
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 mb-6 max-w-3xl mx-auto">
             Aprende Excel paso a paso con nuestros videos estructurados. 
             Desde conceptos básicos hasta técnicas avanzadas de automatización.
           </p>
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 max-w-2xl mx-auto mb-8">
+            <p className="text-sm text-blue-800 text-center">
+              <strong>📚 Contenido educativo desarrollado por TECLAB</strong><br/>
+              Videos instructivos y material pedagógico protegido por derechos de autor.
+            </p>
+          </div>
         </div>
       </section>
 

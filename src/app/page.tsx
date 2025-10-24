@@ -292,7 +292,15 @@ export default function Home() {
               </Link>
             </div>
             <div className="mt-8 pt-8 border-t border-gray-800 text-gray-500">
-              <p>&copy; 2025 AprendeExcel. Todos los derechos reservados.</p>
+              <div className="text-center space-y-2">
+                <p>&copy; 2025 AprendeExcel. Todos los derechos reservados.</p>
+                <p className="text-sm">
+                  Videos, ejercicios y material de fórmulas desarrollados por <strong className="text-gray-300">TECLAB</strong>
+                </p>
+                <p className="text-xs">
+                  El contenido educativo es propiedad intelectual de TECLAB y está protegido por derechos de autor.
+                </p>
+              </div>
             </div>
           </div>
         </div>
