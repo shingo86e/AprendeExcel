@@ -11,14 +11,17 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children, 
   redirectTo = '/login' 
 }) => {
-  const { user, loading } = useAuth();
+  const { user, userProfile, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
     if (!loading && !user) {
       router.push(redirectTo);
+    } else if (!loading && user && !userProfile?.nickname) {
+      // Si el usuario está autenticado pero no tiene nickname, redirigir a configuración
+      router.push('/setup-nickname');
     }
-  }, [user, loading, router, redirectTo]);
+  }, [user, userProfile, loading, router, redirectTo]);
 
   // Mostrar loading mientras se verifica la autenticación
   if (loading) {
@@ -38,7 +41,12 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     return null;
   }
 
-  // Si hay usuario, renderizar el contenido protegido
+  // Si hay usuario pero no tiene nickname, no renderizar (se redirigirá a setup)
+  if (user && !userProfile?.nickname) {
+    return null;
+  }
+
+  // Si hay usuario y tiene nickname, renderizar el contenido protegido
   return <>{children}</>;
 };
 
@@ -47,14 +55,20 @@ export const PublicRoute: React.FC<ProtectedRouteProps> = ({
   children, 
   redirectTo = '/' 
 }) => {
-  const { user, loading } = useAuth();
+  const { user, userProfile, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
     if (!loading && user) {
-      router.push(redirectTo);
+      // Si el usuario está autenticado pero no tiene nickname
+      if (!userProfile?.nickname) {
+        router.push('/setup-nickname');
+      } else {
+        // Si tiene nickname, ir al dashboard
+        router.push(redirectTo);
+      }
     }
-  }, [user, loading, router, redirectTo]);
+  }, [user, userProfile, loading, router, redirectTo]);
 
   // Mostrar loading mientras se verifica la autenticación
   if (loading) {

@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { PlayIcon, ClockIcon, AcademicCapIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import { ProtectedRoute } from '@/components/ProtectedRoute';
+import Navbar from '@/components/Navbar';
 
 interface Video {
   id: number;
@@ -95,32 +97,10 @@ export default function Videos() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      {/* Header */}
-      <header className="bg-white shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
-            <Link href="/" className="flex items-center">
-              <PlayIcon className="h-8 w-8 text-green-600 mr-3" />
-              <h1 className="text-3xl font-bold text-gray-900">AprendeExcel - Videos</h1>
-            </Link>
-            <nav className="hidden md:flex space-x-8">
-              <Link href="/" className="text-gray-600 hover:text-green-600 transition-colors">
-                Inicio
-              </Link>
-              <Link href="/ejercicios" className="text-gray-600 hover:text-green-600 transition-colors">
-                Ejercicios
-              </Link>
-              <Link href="/formulas" className="text-gray-600 hover:text-green-600 transition-colors">
-                Fórmulas
-              </Link>
-              <Link href="/videos" className="text-green-600 font-medium">
-                Videos
-              </Link>
-            </nav>
-          </div>
-        </div>
-      </header>
+    <ProtectedRoute>
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      {/* Navbar */}
+      <Navbar title="AprendeExcel - Videos" icon={PlayIcon} currentPage="videos" />
 
       {/* Hero Section */}
       <section className="py-16">
@@ -346,5 +326,6 @@ export default function Videos() {
         </div>
       </section>
     </div>
+    </ProtectedRoute>
   );
 }
